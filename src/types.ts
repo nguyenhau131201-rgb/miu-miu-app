@@ -36,6 +36,16 @@ export interface Table {
   label: string;
   currentOrder: OrderItem[];
   status: 'VACANT' | 'OCCUPIED';
+  isPaid?: boolean;
+}
+
+export type InventoryStatus = 'IN_STOCK' | 'OUT_OF_STOCK';
+
+export interface InventoryItem {
+  menuItemId: string;
+  status: InventoryStatus;
+  quantity?: number; // Chỉ dùng cho nước đóng chai/ăn vặt
+  isCountable: boolean; // true nếu là nước ngọt/nước suối/ăn vặt
 }
 
 export interface DailyReport {

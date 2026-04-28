@@ -8,6 +8,7 @@ import { Transaction } from '../types';
 import { Calendar, TrendingUp, Wallet, ArrowLeftRight, Clock, CreditCard, FileDown, Trash2 } from 'lucide-react';
 import { motion } from 'motion/react';
 import * as XLSX from 'xlsx';
+import { getVietnamDateString, formatVietnamDate, formatVietnamTime } from '../utils/dateUtils';
 
 interface ReportViewProps {
   transactions: Transaction[];
@@ -22,12 +23,12 @@ export function ReportView({
   onUpdateTransaction,
   onDeleteTransaction
 }: ReportViewProps) {
-  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+  const [selectedDate, setSelectedDate] = useState(getVietnamDateString());
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
   const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
 
   const filteredTransactions = transactions.filter(t => 
-    new Date(t.timestamp).toISOString().split('T')[0] === selectedDate
+    getVietnamDateString(new Date(t.timestamp)) === selectedDate
   );
 
   const stats = filteredTransactions.reduce((acc, t) => {
@@ -61,8 +62,8 @@ export function ReportView({
     
     const data = filteredTransactions.map(t => {
       const row: any = {
-        'Ngày': new Date(t.timestamp).toLocaleDateString('vi-VN'),
-        'Giờ': new Date(t.timestamp).toLocaleTimeString('vi-VN'),
+        'Ngày': formatVietnamDate(t.timestamp),
+        'Giờ': formatVietnamTime(t.timestamp),
       };
 
       // Create a column for each table ID
@@ -288,7 +289,7 @@ function TransactionLogItem({ t, onEdit }: TransactionLogItemProps) {
           <div className="font-black text-gray-900">Bàn {t.tableId}</div>
           <div className="flex items-center gap-1.5 text-[9px] text-gray-400 font-black uppercase tracking-wider mt-0.5">
             <Clock size={10} strokeWidth={3} />
-            {new Date(t.timestamp).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}
+            {formatVietnamTime(t.timestamp)}
           </div>
         </div>
       </div>
@@ -376,7 +377,7 @@ function EditTransactionModal({ transaction, onClose, onUpdate, onDelete }: Edit
         <div className="p-8 border-b border-gray-100 flex items-center justify-between">
           <div>
             <h3 className="text-2xl font-black text-gray-900">Sửa Giao Dịch</h3>
-            <p className="text-[10px] text-gray-400 font-black uppercase tracking-widest mt-1">Bàn {transaction.tableId} • {new Date(transaction.timestamp).toLocaleTimeString('vi-VN')}</p>
+            <p className="text-[10px] text-gray-400 font-black uppercase tracking-widest mt-1">Bàn {transaction.tableId} • {formatVietnamTime(transaction.timestamp)}</p>
           </div>
           <button onClick={onClose} className="p-3 bg-gray-50 rounded-2xl text-gray-400 hover:text-gray-900 transition-colors">
             <X size={24} />

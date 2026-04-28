@@ -39,13 +39,15 @@ export function Dashboard({ tables, onSelectTable }: DashboardProps) {
                 className={`
                   aspect-square rounded-3xl p-4 flex flex-col items-center justify-center gap-1 border-2 transition-all shadow-sm
                   ${table.status === 'OCCUPIED' 
-                    ? 'bg-red-50 border-red-200 text-red-600' 
+                    ? table.isPaid 
+                      ? 'bg-blue-50 border-blue-200 text-blue-600' 
+                      : 'bg-red-50 border-red-200 text-red-600' 
                     : 'bg-green-50 border-green-200 text-green-600'}
                 `}
               >
                 <span className="text-xl font-black">{table.label}</span>
-                <span className="text-[10px] font-bold uppercase tracking-widest opacity-70">
-                  {table.status === 'OCCUPIED' ? 'Có khách' : 'Bàn trống'}
+                <span className="text-[10px] font-bold uppercase tracking-widest opacity-70 h-[1.2em] flex items-center justify-center text-center">
+                  {table.status === 'OCCUPIED' ? (table.isPaid ? 'Đã thu tiền' : 'Có khách') : 'Bàn trống'}
                 </span>
                 {table.currentOrder.length > 0 && (
                   <div className="mt-1 px-2 py-0.5 bg-red-600 text-white text-[9px] font-black rounded-full uppercase tracking-tighter">

@@ -33,7 +33,6 @@ export const MENU_ITEMS: MenuItem[] = [
 
   // SINH TỐ / SMOOTHIES
   { id: 's1', category: 'SINH TỐ / SMOOTHIES', nameVi: 'Sinh tố bơ', nameEn: 'Avocado Smoothie', price: 30000 },
-  { id: 's2', category: 'SINH TỐ / SMOOTHIES', nameVi: 'Sinh tố mãng cầu', nameEn: 'Soursop Smoothie', price: 30000 },
   { id: 's3', category: 'SINH TỐ / SMOOTHIES', nameVi: 'Sinh tố xoài', nameEn: 'Mango Smoothie', price: 30000 },
   { id: 's4', category: 'SINH TỐ / SMOOTHIES', nameVi: 'Sinh tố bơ xoài', nameEn: 'Avocado Mango Smoothie', price: 30000 },
 
@@ -53,6 +52,8 @@ export const MENU_ITEMS: MenuItem[] = [
   { id: 'o2', category: 'MÓN KHÁC / OTHERS', nameVi: 'Đá me', nameEn: 'Tamarind Ice Drink', price: 25000 },
   { id: 'o3', category: 'MÓN KHÁC / OTHERS', nameVi: 'Trà Lipton', nameEn: 'Lipton Tea', price: 20000 },
   { id: 'o4', category: 'MÓN KHÁC / OTHERS', nameVi: 'Trà đường', nameEn: 'Sugar Tea', price: 15000 },
+  { id: 'o5', category: 'MÓN KHÁC / OTHERS', nameVi: 'Ca cao', nameEn: 'Cocoa', price: 20000 },
+  { id: 'o6', category: 'MÓN KHÁC / OTHERS', nameVi: 'Trà gừng', nameEn: 'Ginger Tea', price: 20000 },
 
   // NƯỚC NGỌT / SOFT DRINKS
   { id: 'sd_p', category: 'NƯỚC NGỌT / SOFT DRINKS', nameVi: 'Pepsi', nameEn: 'Pepsi', price: 15000 },
@@ -61,6 +62,7 @@ export const MENU_ITEMS: MenuItem[] = [
   { id: 'sd_7up', category: 'NƯỚC NGỌT / SOFT DRINKS', nameVi: '7UP', nameEn: '7UP', price: 15000 },
   { id: 'sd_st', category: 'NƯỚC NGỌT / SOFT DRINKS', nameVi: 'Sting', nameEn: 'Sting Energy Drink', price: 15000 },
   { id: 'sd_ol', category: 'NƯỚC NGỌT / SOFT DRINKS', nameVi: 'Olong', nameEn: 'Oolong Tea', price: 15000 },
+  { id: 'sd_wa', category: 'NƯỚC NGỌT / SOFT DRINKS', nameVi: 'Nước suối', nameEn: 'Bottled Water', price: 10000 },
   { id: 'sd_bh', category: 'NƯỚC NGỌT / SOFT DRINKS', nameVi: 'Bò húc', nameEn: 'Red Bull', price: 20000 },
 
   // ĐỒ ĂN VẶT / SNACK

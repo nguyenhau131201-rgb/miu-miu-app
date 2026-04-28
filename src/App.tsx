@@ -8,12 +8,14 @@ import { useCoffeeStore } from './hooks/useCoffeeStore';
 import { Dashboard } from './components/Dashboard';
 import { OrderView } from './components/OrderView';
 import { ReportView } from './components/ReportView';
+import { InventoryView } from './components/InventoryView';
 import { Layout } from './components/Layout';
 
 type ViewState = 
   | { type: 'DASHBOARD' }
   | { type: 'ORDER'; tableId: string }
-  | { type: 'REPORT' };
+  | { type: 'REPORT' }
+  | { type: 'INVENTORY' };
 
 export default function App() {
   const store = useCoffeeStore();
@@ -33,12 +35,14 @@ export default function App() {
   const navigateToDashboard = () => setView({ type: 'DASHBOARD' });
   const navigateToOrder = (tableId: string) => setView({ type: 'ORDER', tableId });
   const navigateToReport = () => setView({ type: 'REPORT' });
+  const navigateToInventory = () => setView({ type: 'INVENTORY' });
 
   return (
     <Layout 
       currentView={view.type} 
       onNavigateDashboard={navigateToDashboard} 
       onNavigateReport={navigateToReport}
+      onNavigateInventory={navigateToInventory}
     >
       {view.type === 'DASHBOARD' && (
         <Dashboard tables={store.tables} onSelectTable={navigateToOrder} />
@@ -54,6 +58,14 @@ export default function App() {
             store.checkout(view.tableId, paymentType);
             navigateToDashboard();
           }}
+          onPayButStay={(tableId, paymentType) => {
+            store.payButStay(tableId, paymentType);
+            navigateToDashboard();
+          }}
+          onClearTable={(tableId) => {
+            store.clearTable(tableId);
+            navigateToDashboard();
+          }}
           onSave={navigateToDashboard}
         />
       )}
@@ -65,6 +77,10 @@ export default function App() {
           onUpdateTransaction={store.updateTransaction}
           onDeleteTransaction={store.deleteTransaction}
         />
+      )}
+
+      {view.type === 'INVENTORY' && (
+        <InventoryView />
       )}
     </Layout>
   );
