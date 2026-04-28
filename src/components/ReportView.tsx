@@ -24,7 +24,10 @@ export function ReportView({
   onDeleteTransaction
 }: ReportViewProps) {
   const [selectedDate, setSelectedDate] = useState(getVietnamDateString());
-  const [selectedSession, setSelectedSession] = useState<'ALL' | 'MORNING' | 'EVENING'>('ALL');
+  const [selectedSession, setSelectedSession] = useState<'ALL' | 'MORNING' | 'EVENING'>(() => {
+    const currentSession = getSessionName(Date.now());
+    return currentSession === 'Sáng' ? 'MORNING' : 'EVENING';
+  });
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
   const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
 
