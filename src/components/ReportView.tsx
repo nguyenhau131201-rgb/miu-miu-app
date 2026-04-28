@@ -8,7 +8,7 @@ import { Transaction } from '../types';
 import { Calendar, TrendingUp, Wallet, ArrowLeftRight, Clock, CreditCard, FileDown, Trash2 } from 'lucide-react';
 import { motion } from 'motion/react';
 import * as XLSX from 'xlsx';
-import { getVietnamDateString, formatVietnamDate, formatVietnamTime } from '../utils/dateUtils';
+import { getVietnamDateString, formatVietnamDate, formatVietnamTime, getSessionName } from '../utils/dateUtils';
 
 interface ReportViewProps {
   transactions: Transaction[];
@@ -24,12 +24,40 @@ export function ReportView({
   onDeleteTransaction
 }: ReportViewProps) {
   const [selectedDate, setSelectedDate] = useState(getVietnamDateString());
+  const [selectedSession, setSelectedSession] = useState<'ALL' | 'MORNING' | 'EVENING'>('ALL');
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
   const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
 
-  const filteredTransactions = transactions.filter(t => 
+  const transactionsForSelectedDay = transactions.filter(t => 
     getVietnamDateString(new Date(t.timestamp)) === selectedDate
   );
+
+  const statsBySession = transactionsForSelectedDay.reduce((acc, t) => {
+    const session = getSessionName(t.timestamp);
+    const isCash = t.paymentType === 'CASH';
+    
+    if (session === 'Sáng') {
+      acc.morning.total += t.total;
+      if (isCash) acc.all.morningCash += t.total;
+      else acc.all.morningTransfer += t.total;
+    } else {
+      acc.evening.total += t.total;
+      if (isCash) acc.all.eveningCash += t.total;
+      else acc.all.eveningTransfer += t.total;
+    }
+    acc.all.total += t.total;
+    return acc;
+  }, { 
+    all: { total: 0, morningCash: 0, morningTransfer: 0, eveningCash: 0, eveningTransfer: 0 }, 
+    morning: { total: 0 }, 
+    evening: { total: 0 } 
+  });
+
+  const filteredTransactions = transactionsForSelectedDay.filter(t => {
+    if (selectedSession === 'ALL') return true;
+    const session = getSessionName(t.timestamp);
+    return selectedSession === 'MORNING' ? session === 'Sáng' : session === 'Tối';
+  });
 
   const stats = filteredTransactions.reduce((acc, t) => {
     acc.total += t.total;
@@ -60,10 +88,11 @@ export function ReportView({
     // Get all unique table IDs from the constants to create headers
     const tableIds = ['A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'C1', 'C2', 'C3', 'D1', 'D2', 'D3', 'E MANG ĐI', 'E KHÁC'];
     
-    const data = filteredTransactions.map(t => {
+    const data = transactionsForSelectedDay.map(t => {
       const row: any = {
         'Ngày': formatVietnamDate(t.timestamp),
         'Giờ': formatVietnamTime(t.timestamp),
+        'Buổi': getSessionName(t.timestamp),
       };
 
       // Create a column for each table ID
@@ -88,10 +117,10 @@ export function ReportView({
       'Giờ': '',
     };
     tableIds.forEach(id => { grandTotalRow[`Bàn ${id}`] = ''; });
-    grandTotalRow['Tiền mặt'] = stats.cash;
-    grandTotalRow['Chuyển khoản'] = stats.transfer;
-    grandTotalRow['Tổng doanh thu'] = stats.total;
-    grandTotalRow['Chi tiết món'] = `Tổng cộng ${filteredTransactions.length} giao dịch`;
+    grandTotalRow['Tiền mặt'] = statsBySession.all.morningCash + statsBySession.all.eveningCash; // We need to calc these or just use fresh reduce
+    grandTotalRow['Chuyển khoản'] = statsBySession.all.morningTransfer + statsBySession.all.eveningTransfer;
+    grandTotalRow['Tổng doanh thu'] = statsBySession.all.total;
+    grandTotalRow['Chi tiết món'] = `Tổng cộng ${transactionsForSelectedDay.length} giao dịch`;
     
     data.push(grandTotalRow);
 
@@ -103,6 +132,7 @@ export function ReportView({
     const wscols = [
       { wch: 12 }, // Ngày
       { wch: 12 }, // Giờ
+      { wch: 10 }, // Buổi
       ...tableIds.map(() => ({ wch: 10 })), // Table columns
       { wch: 15 }, // Tiền mặt
       { wch: 15 }, // Chuyển khoản
@@ -151,6 +181,31 @@ export function ReportView({
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
             className="text-sm font-black focus:outline-none bg-transparent flex-1"
+          />
+        </div>
+
+        {/* Session Selector */}
+        <div className="grid grid-cols-3 gap-2 bg-gray-100/50 p-1 rounded-[22px] border border-gray-100">
+          <SessionTab 
+            label="Sáng"
+            subLabel="0-12h"
+            active={selectedSession === 'MORNING'}
+            onClick={() => setSelectedSession('MORNING')}
+            revenue={statsBySession.morning.total}
+          />
+          <SessionTab 
+            label="Tối"
+            subLabel="12-24h"
+            active={selectedSession === 'EVENING'}
+            onClick={() => setSelectedSession('EVENING')}
+            revenue={statsBySession.evening.total}
+          />
+          <SessionTab 
+            label="Cả ngày"
+            subLabel="Full day"
+            active={selectedSession === 'ALL'}
+            onClick={() => setSelectedSession('ALL')}
+            revenue={statsBySession.all.total}
           />
         </div>
       </div>
@@ -263,6 +318,40 @@ export function ReportView({
         />
       )}
     </div>
+  );
+}
+
+function SessionTab({ 
+  label, 
+  subLabel,
+  active, 
+  onClick, 
+  revenue 
+}: { 
+  label: string, 
+  subLabel: string,
+  active: boolean, 
+  onClick: () => void, 
+  revenue: number 
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={`
+        relative flex flex-col items-center justify-center py-2.5 rounded-[18px] transition-all
+        ${active ? 'bg-white shadow-sm ring-1 ring-black/5' : 'hover:bg-white/40'}
+      `}
+    >
+      <div className={`text-[11px] font-black uppercase tracking-widest ${active ? 'text-gray-900' : 'text-gray-400'}`}>
+        {label}
+      </div>
+      <div className="text-[10px] font-mono font-black text-amber-600 mt-0.5">
+        {revenue.toLocaleString('vi-VN')}đ
+      </div>
+      <div className="text-[8px] font-bold text-gray-300 uppercase tracking-tighter mt-0.5">
+        {subLabel}
+      </div>
+    </button>
   );
 }
 
