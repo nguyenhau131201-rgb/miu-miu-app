@@ -58,8 +58,8 @@ export default function App() {
             store.checkout(view.tableId, paymentType);
             navigateToDashboard();
           }}
-          onPayButStay={(tableId, paymentType) => {
-            store.payButStay(tableId, paymentType);
+          onPayButStay={(paymentType) => {
+            store.payButStay(view.tableId, paymentType);
             navigateToDashboard();
           }}
           onClearTable={(tableId) => {

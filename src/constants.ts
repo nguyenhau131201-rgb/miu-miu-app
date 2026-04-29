@@ -33,6 +33,7 @@ export const MENU_ITEMS: MenuItem[] = [
 
   // SINH TỐ / SMOOTHIES
   { id: 's1', category: 'SINH TỐ / SMOOTHIES', nameVi: 'Sinh tố bơ', nameEn: 'Avocado Smoothie', price: 30000 },
+  { id: 's2', category: 'SINH TỐ / SMOOTHIES', nameVi: 'Bơ dằm', nameEn: 'Smashed Avocado', price: 30000 },
   { id: 's3', category: 'SINH TỐ / SMOOTHIES', nameVi: 'Sinh tố xoài', nameEn: 'Mango Smoothie', price: 30000 },
   { id: 's4', category: 'SINH TỐ / SMOOTHIES', nameVi: 'Sinh tố bơ xoài', nameEn: 'Avocado Mango Smoothie', price: 30000 },
 
@@ -41,6 +42,8 @@ export const MENU_ITEMS: MenuItem[] = [
   { id: 'j2', category: 'NƯỚC ÉP / FRESH JUICES', nameVi: 'Nước ép ổi', nameEn: 'Guava Juice', price: 25000 },
   { id: 'j3', category: 'NƯỚC ÉP / FRESH JUICES', nameVi: 'Nước ép táo mix ổi', nameEn: 'Apple & Guava Juice', price: 25000 },
   { id: 'j4', category: 'NƯỚC ÉP / FRESH JUICES', nameVi: 'Nước cam', nameEn: 'Orange Juice', price: 20000 },
+  { id: 'j5', category: 'NƯỚC ÉP / FRESH JUICES', nameVi: 'Nước chanh', nameEn: 'Lemonade', price: 15000 },
+  { id: 'j6', category: 'NƯỚC ÉP / FRESH JUICES', nameVi: 'Dừa', nameEn: 'Coconut', price: 25000 },
 
   // SODA
   { id: 'sd1', category: 'SODA', nameVi: 'Soda việt quất', nameEn: 'Blueberry Soda', price: 20000 },

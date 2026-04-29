@@ -206,6 +206,7 @@ export function MenuModal({ onClose, onSelect }: MenuModalProps) {
 }
 
 interface MenuItemRowProps {
+  key?: string | number;
   item: MenuItem;
   onSelect: (item: MenuItem) => void;
   isOutOfStock: boolean;

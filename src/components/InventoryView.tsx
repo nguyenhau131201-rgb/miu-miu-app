@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useCoffeeStore } from '../hooks/useCoffeeStore';
 import { MENU_ITEMS } from '../constants';
 import { InventoryItem, InventoryStatus } from '../types';
@@ -85,7 +85,7 @@ export function InventoryView() {
             label="Tổng loại" 
             value={totalTypes} 
             icon={<Package size={16} />} 
-            color={filterMode === 'ALL' ? "bg-white text-gray-900 border-gray-900 ring-2 ring-black/5" : "bg-white text-gray-400 border-gray-100"}
+            color={filterMode === 'ALL' ? "bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-100" : "bg-white text-blue-600 border-blue-100"}
             onClick={() => setFilterMode('ALL')}
             isActive={filterMode === 'ALL'}
           />
@@ -93,7 +93,7 @@ export function InventoryView() {
             label="Sắp hết" 
             value={lowStockCount} 
             icon={<AlertCircle size={16} />} 
-            color={filterMode === 'LOW_STOCK' ? "bg-amber-500 text-white border-amber-500 shadow-lg shadow-amber-100" : "bg-amber-50 text-amber-700 border-amber-100"}
+            color={filterMode === 'LOW_STOCK' ? "bg-amber-500 text-white border-amber-500 shadow-lg shadow-amber-100" : "bg-white text-amber-600 border-amber-100"}
             onClick={() => setFilterMode('LOW_STOCK')}
             isActive={filterMode === 'LOW_STOCK'}
           />
@@ -101,7 +101,7 @@ export function InventoryView() {
             label="Hết hàng" 
             value={outOfStockCount} 
             icon={<PackageX size={16} />} 
-            color={filterMode === 'OUT_OF_STOCK' ? "bg-red-500 text-white border-red-500 shadow-lg shadow-red-100" : "bg-red-50 text-red-700 border-red-100"}
+            color={filterMode === 'OUT_OF_STOCK' ? "bg-rose-500 text-white border-rose-500 shadow-lg shadow-rose-100" : "bg-white text-rose-600 border-rose-100"}
             onClick={() => setFilterMode('OUT_OF_STOCK')}
             isActive={filterMode === 'OUT_OF_STOCK'}
           />
@@ -159,19 +159,30 @@ export function InventoryView() {
             const items = groupedItems[category];
 
             return (
-              <div key={category} className="bg-white border border-gray-100 rounded-[28px] overflow-hidden shadow-sm transition-all">
+              <div key={category} className="bg-white border border-gray-100 rounded-[28px] overflow-hidden shadow-sm transition-all group">
                 <button
                   onClick={() => search.length === 0 && toggleCategory(category)}
                   className={`w-full flex items-center justify-between px-6 py-5 transition-all ${
-                    isExpanded ? 'bg-gray-50' : 'bg-white hover:bg-gray-50/50'
+                    isExpanded ? 'bg-gray-50/80' : 'bg-white hover:bg-gray-50/50'
                   }`}
                 >
-                  <div className="text-left">
-                    <div className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-1">
-                      {category.split(' / ')[1] || 'Category'}
+                  <div className="flex items-center gap-4">
+                    <div className={`w-10 h-10 rounded-2xl flex items-center justify-center border ${
+                      category.includes('COFFEE') ? 'bg-amber-50 text-amber-700 border-amber-100' :
+                      category.includes('JUICES') ? 'bg-orange-50 text-orange-700 border-orange-100' :
+                      category.includes('SODA') ? 'bg-blue-50 text-blue-700 border-blue-100' :
+                      category.includes('SMOOTHIES') ? 'bg-green-50 text-green-700 border-green-100' :
+                      'bg-purple-50 text-purple-700 border-purple-100'
+                    }`}>
+                       <Package size={18} />
                     </div>
-                    <div className="text-[15px] font-black text-gray-900 uppercase tracking-widest">
-                      {category.split(' / ')[0]}
+                    <div className="text-left">
+                      <div className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-0.5">
+                        {category.split(' / ')[1] || 'Category'}
+                      </div>
+                      <div className="text-[15px] font-black text-gray-900 uppercase tracking-widest">
+                        {category.split(' / ')[0]}
+                      </div>
                     </div>
                   </div>
                   {search.length === 0 && (
@@ -257,6 +268,7 @@ function StatCard({
 }
 
 interface InventoryItemRowProps {
+  key?: string | number;
   item: typeof MENU_ITEMS[0];
   invItem?: InventoryItem;
   onUpdate: (updates: Partial<InventoryItem>) => void;
@@ -276,14 +288,14 @@ function InventoryItemRow({ item, invItem, onUpdate }: InventoryItemRowProps) {
         </div>
         
         {/* Toggle Status for non-countable or all */}
-        <button
-          onClick={() => onUpdate({ status: invItem.status === 'IN_STOCK' ? 'OUT_OF_STOCK' : 'IN_STOCK' })}
-          className={`flex items-center gap-2 px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all border shrink-0 ${
-            !isActuallyOutOfStock 
-            ? 'bg-green-50 text-green-700 border-green-100 hover:bg-green-100' 
-            : 'bg-red-50 text-red-700 border-red-100 hover:bg-red-100'
-          }`}
-        >
+          <button
+            onClick={() => onUpdate({ status: invItem.status === 'IN_STOCK' ? 'OUT_OF_STOCK' : 'IN_STOCK' })}
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all border shrink-0 ${
+              !isActuallyOutOfStock 
+              ? 'bg-emerald-50 text-emerald-700 border-emerald-100 hover:bg-emerald-100 shadow-sm shadow-emerald-50' 
+              : 'bg-rose-50 text-rose-700 border-rose-100 hover:bg-rose-100 shadow-sm shadow-rose-50'
+            }`}
+          >
           {!isActuallyOutOfStock ? (
             <> <PackageCheck size={14} /> CÒN HÀNG </>
           ) : (

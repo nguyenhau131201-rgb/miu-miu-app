@@ -167,7 +167,7 @@ export function OrderView({ table, onBack, onAddItem, onRemoveItem, onCheckout, 
               if (paymentFlow === 'CHECKOUT') {
                 onCheckout(type);
               } else {
-                onPayButStay?.(table.id, type);
+                onPayButStay?.(type);
               }
               setIsPaymentOpen(false);
             }}

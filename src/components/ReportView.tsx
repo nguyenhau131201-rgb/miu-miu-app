@@ -188,13 +188,14 @@ export function ReportView({
         </div>
 
         {/* Session Selector */}
-        <div className="grid grid-cols-3 gap-2 bg-gray-100/50 p-1 rounded-[22px] border border-gray-100">
+        <div className="grid grid-cols-3 gap-2 bg-gray-100/30 p-1 rounded-[24px] border border-gray-100">
           <SessionTab 
             label="Sáng"
             subLabel="0-12h"
             active={selectedSession === 'MORNING'}
             onClick={() => setSelectedSession('MORNING')}
             revenue={statsBySession.morning.total}
+            activeColor="bg-amber-500 text-white shadow-amber-100"
           />
           <SessionTab 
             label="Tối"
@@ -202,6 +203,7 @@ export function ReportView({
             active={selectedSession === 'EVENING'}
             onClick={() => setSelectedSession('EVENING')}
             revenue={statsBySession.evening.total}
+            activeColor="bg-indigo-600 text-white shadow-indigo-100"
           />
           <SessionTab 
             label="Cả ngày"
@@ -209,6 +211,7 @@ export function ReportView({
             active={selectedSession === 'ALL'}
             onClick={() => setSelectedSession('ALL')}
             revenue={statsBySession.all.total}
+            activeColor="bg-blue-600 text-white shadow-blue-100"
           />
         </div>
       </div>
@@ -217,18 +220,18 @@ export function ReportView({
         <motion.div 
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-black p-8 rounded-[40px] text-white shadow-2xl shadow-gray-300 relative overflow-hidden"
+          className="bg-indigo-900 p-8 rounded-[40px] text-white shadow-2xl shadow-indigo-100 relative overflow-hidden"
         >
-          <div className="absolute top-0 right-0 p-8 opacity-10">
+          <div className="absolute top-0 right-0 p-8 opacity-20 text-indigo-400">
             <TrendingUp size={80} strokeWidth={3} />
           </div>
           <div className="flex justify-between items-start mb-6 relative z-10">
-            <div className="p-2.5 bg-white/10 rounded-2xl">
+            <div className="p-3 bg-white/20 backdrop-blur-md rounded-2xl">
               <TrendingUp size={24} />
             </div>
-            <span className="text-[10px] font-black uppercase tracking-[0.2em] opacity-40">Tổng Doanh Thu</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.2em] opacity-60">Tổng Doanh Thu</span>
           </div>
-          <div className="text-4xl font-black relative z-10 font-mono tracking-tighter">{stats.total.toLocaleString('vi-VN')}đ</div>
+          <div className="text-4xl font-black relative z-10 font-mono tracking-tighter tabular-nums">{stats.total.toLocaleString('vi-VN')}đ</div>
         </motion.div>
 
         <div className="grid grid-cols-2 gap-4">
@@ -236,30 +239,30 @@ export function ReportView({
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="bg-white p-6 rounded-[32px] border border-gray-100 shadow-sm"
+            className="bg-white p-6 rounded-[32px] border border-emerald-100 shadow-sm"
           >
             <div className="flex justify-between items-start mb-4">
-              <div className="p-2.5 bg-green-50 text-green-600 rounded-2xl border border-green-100">
+              <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-2xl border border-emerald-100">
                 <Wallet size={18} />
               </div>
-              <span className="text-[10px] font-black uppercase tracking-widest text-gray-300">Tiền Mặt</span>
+              <span className="text-[10px] font-black uppercase tracking-widest text-emerald-300">Tiền Mặt</span>
             </div>
-            <div className="text-xl font-black text-gray-900 font-mono">{stats.cash.toLocaleString('vi-VN')}đ</div>
+            <div className="text-xl font-black text-gray-900 font-mono tabular-nums">{stats.cash.toLocaleString('vi-VN')}đ</div>
           </motion.div>
 
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-white p-6 rounded-[32px] border border-gray-100 shadow-sm"
+            className="bg-white p-6 rounded-[32px] border border-blue-100 shadow-sm"
           >
             <div className="flex justify-between items-start mb-4">
               <div className="p-2.5 bg-blue-50 text-blue-600 rounded-2xl border border-blue-100">
                 <ArrowLeftRight size={18} />
               </div>
-              <span className="text-[10px] font-black uppercase tracking-widest text-gray-300">Chuyển Khoản</span>
+              <span className="text-[10px] font-black uppercase tracking-widest text-blue-300">Chuyển Khoản</span>
             </div>
-            <div className="text-xl font-black text-gray-900 font-mono">{stats.transfer.toLocaleString('vi-VN')}đ</div>
+            <div className="text-xl font-black text-gray-900 font-mono tabular-nums">{stats.transfer.toLocaleString('vi-VN')}đ</div>
           </motion.div>
         </div>
       </div>
@@ -329,29 +332,31 @@ function SessionTab({
   subLabel,
   active, 
   onClick, 
-  revenue 
+  revenue,
+  activeColor
 }: { 
   label: string, 
   subLabel: string,
   active: boolean, 
   onClick: () => void, 
-  revenue: number 
+  revenue: number,
+  activeColor: string
 }) {
   return (
     <button
       onClick={onClick}
       className={`
-        relative flex flex-col items-center justify-center py-2.5 rounded-[18px] transition-all
-        ${active ? 'bg-white shadow-sm ring-1 ring-black/5' : 'hover:bg-white/40'}
+        relative flex flex-col items-center justify-center py-3 rounded-[20px] transition-all
+        ${active ? `${activeColor} shadow-lg scale-105 z-10` : 'text-gray-400 hover:bg-white/60'}
       `}
     >
-      <div className={`text-[11px] font-black uppercase tracking-widest ${active ? 'text-gray-900' : 'text-gray-400'}`}>
+      <div className={`text-[10px] font-black uppercase tracking-widest ${active ? 'opacity-90' : 'opacity-60'}`}>
         {label}
       </div>
-      <div className="text-[10px] font-mono font-black text-amber-600 mt-0.5">
+      <div className={`text-[11px] font-mono font-black mt-0.5 ${active ? 'text-white' : 'text-amber-600'}`}>
         {revenue.toLocaleString('vi-VN')}đ
       </div>
-      <div className="text-[8px] font-bold text-gray-300 uppercase tracking-tighter mt-0.5">
+      <div className={`text-[8px] font-bold uppercase tracking-tighter mt-0.5 ${active ? 'opacity-60' : 'opacity-30'}`}>
         {subLabel}
       </div>
     </button>

@@ -47,7 +47,19 @@ export function useCoffeeStore() {
     }
 
     if (storedInventory) {
-      setInventory(JSON.parse(storedInventory));
+      const parsedInventory: InventoryItem[] = JSON.parse(storedInventory);
+      // Sync with MENU_ITEMS to add new items
+      const syncedInventory = MENU_ITEMS.map(item => {
+        const existing = parsedInventory.find(i => i.menuItemId === item.id);
+        if (existing) return existing;
+        return {
+          menuItemId: item.id,
+          status: 'IN_STOCK' as InventoryStatus,
+          quantity: (item.category.includes('SOFT DRINKS') || item.category.includes('SNACK')) ? 10 : undefined,
+          isCountable: (item.category.includes('SOFT DRINKS') || item.category.includes('SNACK'))
+        };
+      });
+      setInventory(syncedInventory);
     } else {
       // Initialize inventory from MENU_ITEMS
       const initialInventory: InventoryItem[] = MENU_ITEMS.map(item => ({
