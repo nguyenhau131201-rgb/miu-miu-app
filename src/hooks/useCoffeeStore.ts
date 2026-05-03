@@ -55,8 +55,8 @@ export function useCoffeeStore() {
         return {
           menuItemId: item.id,
           status: 'IN_STOCK' as InventoryStatus,
-          quantity: (item.category.includes('SOFT DRINKS') || item.category.includes('SNACK')) ? 10 : undefined,
-          isCountable: (item.category.includes('SOFT DRINKS') || item.category.includes('SNACK'))
+          quantity: (item.category.includes('SOFT DRINKS') || item.category.includes('SNACK') || item.category.includes('CIGARETTES')) ? 10 : undefined,
+          isCountable: (item.category.includes('SOFT DRINKS') || item.category.includes('SNACK') || item.category.includes('CIGARETTES'))
         };
       });
       setInventory(syncedInventory);
@@ -65,8 +65,8 @@ export function useCoffeeStore() {
       const initialInventory: InventoryItem[] = MENU_ITEMS.map(item => ({
         menuItemId: item.id,
         status: 'IN_STOCK',
-        quantity: (item.category.includes('SOFT DRINKS') || item.category.includes('SNACK')) ? 10 : undefined,
-        isCountable: (item.category.includes('SOFT DRINKS') || item.category.includes('SNACK'))
+        quantity: (item.category.includes('SOFT DRINKS') || item.category.includes('SNACK') || item.category.includes('CIGARETTES')) ? 10 : undefined,
+        isCountable: (item.category.includes('SOFT DRINKS') || item.category.includes('SNACK') || item.category.includes('CIGARETTES'))
       }));
       setInventory(initialInventory);
     }

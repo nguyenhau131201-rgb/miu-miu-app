@@ -27,7 +27,7 @@ export const MENU_ITEMS: MenuItem[] = [
   { id: 'y1', category: 'SỮA CHUA / YOGURT DRINKS', nameVi: 'Sữa chua dâu', nameEn: 'Strawberry Yogurt', price: 25000 },
   { id: 'y2', category: 'SỮA CHUA / YOGURT DRINKS', nameVi: 'Sữa chua đá', nameEn: 'Iced Yogurt', price: 25000 },
   { id: 'y3', category: 'SỮA CHUA / YOGURT DRINKS', nameVi: 'Sữa chua dâu tằm', nameEn: 'Mulberry Yogurt', price: 25000 },
-  { id: 'y4', category: 'SỮA CHUA / YOGURT DRINKS', nameVi: 'Sữa chua trái cây', nameEn: 'Mixed Fruit Yogurt', price: 25000 },
+  { id: 'y4', category: 'SỮA CHUA / YOGURT DRINKS', nameVi: 'Sữa chua trái cây', nameEn: 'Mixed Fruit Yogurt', price: 30000 },
   { id: 'y5', category: 'SỮA CHUA / YOGURT DRINKS', nameVi: 'Sữa chua việt quất', nameEn: 'Blueberry Yogurt', price: 25000 },
   { id: 'y6', category: 'SỮA CHUA / YOGURT DRINKS', nameVi: 'Sữa chua matcha', nameEn: 'Matcha Yogurt', price: 25000 },
 
@@ -44,6 +44,7 @@ export const MENU_ITEMS: MenuItem[] = [
   { id: 'j4', category: 'NƯỚC ÉP / FRESH JUICES', nameVi: 'Nước cam', nameEn: 'Orange Juice', price: 20000 },
   { id: 'j5', category: 'NƯỚC ÉP / FRESH JUICES', nameVi: 'Nước chanh', nameEn: 'Lemonade', price: 15000 },
   { id: 'j6', category: 'NƯỚC ÉP / FRESH JUICES', nameVi: 'Dừa', nameEn: 'Coconut', price: 25000 },
+  { id: 'j7', category: 'NƯỚC ÉP / FRESH JUICES', nameVi: 'Chanh đá', nameEn: 'Iced Lemonade', price: 15000 },
 
   // SODA
   { id: 'sd1', category: 'SODA', nameVi: 'Soda việt quất', nameEn: 'Blueberry Soda', price: 20000 },
@@ -52,6 +53,8 @@ export const MENU_ITEMS: MenuItem[] = [
 
   // MÓN KHÁC / OTHERS
   { id: 'o1', category: 'MÓN KHÁC / OTHERS', nameVi: 'Trà đào cam sả', nameEn: 'Peach Tea with Orange & Lemongrass', price: 25000 },
+  { id: 'o7', category: 'MÓN KHÁC / OTHERS', nameVi: 'Trà đào', nameEn: 'Peach Tea', price: 15000 },
+  { id: 'o8', category: 'MÓN KHÁC / OTHERS', nameVi: 'Trà tắc', nameEn: 'Kumquat Tea', price: 15000 },
   { id: 'o2', category: 'MÓN KHÁC / OTHERS', nameVi: 'Đá me', nameEn: 'Tamarind Ice Drink', price: 25000 },
   { id: 'o3', category: 'MÓN KHÁC / OTHERS', nameVi: 'Trà Lipton', nameEn: 'Lipton Tea', price: 20000 },
   { id: 'o4', category: 'MÓN KHÁC / OTHERS', nameVi: 'Trà đường', nameEn: 'Sugar Tea', price: 15000 },
@@ -61,7 +64,7 @@ export const MENU_ITEMS: MenuItem[] = [
   // NƯỚC NGỌT / SOFT DRINKS
   { id: 'sd_p', category: 'NƯỚC NGỌT / SOFT DRINKS', nameVi: 'Pepsi', nameEn: 'Pepsi', price: 15000 },
   { id: 'sd_c', category: 'NƯỚC NGỌT / SOFT DRINKS', nameVi: 'Coca', nameEn: 'Coca Cola', price: 15000 },
-  { id: 'sd_247', category: 'NƯỚC NGỌT / SOFT DRINKS', nameVi: '247', nameEn: '247 Energy Drink', price: 15000 },
+  { id: 'sd_247', category: 'NƯỚT NGỌT / SOFT DRINKS', nameVi: '247', nameEn: '247 Energy Drink', price: 15000 },
   { id: 'sd_7up', category: 'NƯỚC NGỌT / SOFT DRINKS', nameVi: '7UP', nameEn: '7UP', price: 15000 },
   { id: 'sd_st', category: 'NƯỚC NGỌT / SOFT DRINKS', nameVi: 'Sting', nameEn: 'Sting Energy Drink', price: 15000 },
   { id: 'sd_ol', category: 'NƯỚC NGỌT / SOFT DRINKS', nameVi: 'Olong', nameEn: 'Oolong Tea', price: 15000 },
@@ -71,6 +74,11 @@ export const MENU_ITEMS: MenuItem[] = [
   // ĐỒ ĂN VẶT / SNACK
   { id: 'sn1', category: 'ĐỒ ĂN VẶT / SNACK', nameVi: 'Hướng dương / túi', nameEn: 'Sunflower Seeds', price: 20000 },
   { id: 'sn2', category: 'ĐỒ ĂN VẶT / SNACK', nameVi: 'Trái cây / đĩa', nameEn: 'Mixed Fruits Plate', price: 50000 },
+
+  // THUỐC LÁ / CIGARETTES
+  { id: 'cig1', category: 'THUỐC LÁ / CIGARETTES', nameVi: 'YET VIỆT', nameEn: 'YET VIET Cigarettes', price: 15000 },
+  { id: 'cig2', category: 'THUỐC LÁ / CIGARETTES', nameVi: 'YET THÁI', nameEn: 'YET THAI Cigarettes', price: 28000 },
+  { id: 'cig3', category: 'THUỐC LÁ / CIGARETTES', nameVi: 'SÀI GÒN BẠC', nameEn: 'Sai Gon Silver', price: 20000 },
 ];
 
 export const INITIAL_TABLES: Table[] = [
